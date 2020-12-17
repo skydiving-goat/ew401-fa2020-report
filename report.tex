@@ -1,0 +1,404 @@
+EW401 Final Report
+SkyFall
+by
+Midshipman 1/C Donaldson, Midshipman 1/C Sweeney, Midshipman 1/C Modica, and Midshipman 1/C Tarnawski
+Contact Information: Lindseygrace2017@gmail.com
+A Capstone Project Report Submitted to the Faculty of
+The Weapons, Robotics and Control Engineering Department
+United States Naval Academy, Annapolis, Maryland
+Course: ​ EW401 (Fall) or EW404 (Spring)
+Faculty Advisor: ​ Prof Dennis Evangelista
+Department Chair: ​ Prof Brad Bishop
+Outside Sponsor: ​ CAPT Robert T. Herbert, USN
+5 Dec 2020Contents
+1.
+Introduction
+6
+1.1. Customer Interview 6
+1.2. Additional Background Research 6
+2.
+Problem Statement
+6
+2.1. Problem Statement 6
+2.2. Functions 6
+2.3. Constraints 6
+2.4. Objectives, Pairwise Comparison Chart, and Weightings 6
+2.5. Metrics 7
+3. Related Work 7
+4. Conceptual Designs 7
+4.1. Concept 1: Title 7
+4.2. Concept 2: Title 7
+4.3. Concept 3: Title 7
+4.4. Decision Matrix 7
+5. Ethical Considerations 7
+6. Engineering Standards and Specifications 8
+7. Preliminary Detailed Design 8
+7.1. Component Selection 8
+7.2. Parts List and Budget 8
+7.3. Mechanical Drawings 8
+7.4. Circuit Diagrams 9
+7.5. Prototypes 9
+7.6. Software Structure 9
+27.7.
+8.
+Simulations 10
+Proposed Work 10
+8.1. Work Breakdown Structure 10
+8.2. Timeline 10
+8.3. Risk management 10
+8.4. Demonstration and Testing Plan 11
+9.
+Benchtop Demonstration
+11
+9.1. Activities 11
+9.2. Results 11
+3Abstract​ —
+There has become a need for a data collector in the NSW community, specifically to aid in more efficient instruction
+during freefall training. This semester we have tested multiple sensors to determine the most appropriate for calculating
+data that represents the performance and safety of a skydiver. We have tested various sensors to include the flex
+sensor, magnetic sensors, pneumatic sensors, computer vision, and IMU sensor. With insight from our NSW customer
+and AFF Instructor, we have determined safety is an utmost priority, with accuracy being a close second. We must
+operate within the stringent limitations of the USPA while integrating a commercial device called FlySight.
+We will be implementing a gyro sensor and computer vision to accurately collect the appropriate data in freefall and
+under canopy. Our decision to steer our focus towards the computer vision and the IMU sensors came after failed
+attempts to research the other sensors. Once we narrowed it down to these two sensors we made efforts to perform
+multiple tests. We directed our attention to computer vision because of our success in its implementation along with
+lack of success with the IMU. Moving forward, continue to try and implement the IMU in order to compare it against the
+computer vision. Additionally, we will have to create the equipment to safely and comfortably attach the sensors to the
+skydiver. This will require multiple tests, on the ground and in the wind tunnel, before it is taken in the air. By the end of
+next semester we hope to have completed multiple tests with this equipment so we can present it to a skydive
+instructor who can provide feedback on its usefulness in reality.
+41.
+Introduction
+1.1.
+Customer Interview
+For this project, there are two primary customers. Mike Shultz was the first customer consulted. MIke Shultz is an AFF
+instructor, commercial pilot and a coach for the United States Naval Academy’s Parachute team. He aided this project by
+capitalizing on the sensors already on each diver. The audible, which reminds the diver of altitude, and the Cyprus, which
+can deploy the reserve canopy if the diver gets too low in height without pulling for the main, are both important
+devices every skydiver uses as a safety measure. They both have valuable sensors beneficial to this project.
+CAPT (ret) Robert T. Herbert is a distinguished Military Professor of Ethics at USNA. He is a ​ 1983 graduate of Davidson
+College, Master of Arts in National Security Affairs from NPS, Master of Science in National Security Studies from
+National War College, Ph.D. in International Relations and Political Theory from University of Virginia. He served two
+tours as SEAL Platoon Commander, Operations Officer of SEAL Team EIGHT, Executive Officer of SEAL Delivery Vehicle
+Team TWO, and Naval Special Warfare Task Unit Commander at SEAL Team TWO. His main input for the project was
+finding a way to collect data while keeping the diver safe.
+POV: ​ Skydivers​ need to safely ​ track​ their performance to better their skill.
+1.2.
+Additional Background Research
+The majority of the background research capitalized on the importance for safety.
+Acknowledging the thought process of a safe skydiver was the first step in our background research. The observations of
+four divers were evaluated in the article “The Situated Management of Safety during Risky Sport: Learning from
+Skydivers’ Courses of Experience” [3]. This article aimed to determine ways to manage the risks of skydiving. The
+experiment took four experienced skydivers and took data through cameras and through verbal observations. The safety
+of diving comes down to the safety procedures demonstrated by each individual diver.
+The article compromised a sequence of 7 steps divers go through to minimize risk. “​ They were labeled ‘To check the
+material during preparation,’ ‘To feel prepared and safe for the jump as the plane gains altitude,’ ‘To use the time of
+freefall,’ ‘To deploy the parachute,’ ‘To fly safely,’ ‘To ensure a safe landing’ and ‘To organize the structured packing of
+the parachute’ ” [2]. The experiment observed each diver and wrote down their thoroughness to compare with each
+other. The results concluded that these divers had dynamic practical knowledge about skydiving safety which kept their
+performance level high and their risk level low. The article emphasized the need for divers to not accept the risk, but
+rather find embody safety check-lists to manage the risk. The graph below demonstrates the safe landing sequence
+observations of the divers.
+Second, ​ we consider the tracking aspect of the project. One article talks about an integrated safety/training system that
+combines sensors, hardware, and software technologies. The goal of this research was to improve the safety of
+skydiving. The intended user of this technology would not be a casual skydiver, but more of an experienced jumper
+looking to improve their craft. Similar to our project, the system is beneficial post-jump so the skydiver can analyze
+various metrics to help improve efficiency. The project gives 3-D maps and accident analysis. This type of information
+would be beneficial to NSW as they attempt to track students who may be unsafe. The product also has a virtual reality
+aspect to help a student before his/her jump. It uses GPS data in-flight to track the flight and provide information
+5minutes upon landing. This helps our project better understand the types of data we are looking to include in our
+tracking device. Also, the device can track tandems well which are helpful to our customer as students become more
+proficient they may take part in tandem jumps. This system was very thorough and did not leave out many metrics when
+it came to in-flight tracking, however we would like to add some more specific metrics that relate to toggle rate, pitch,
+roll, and yaw. The use of GPS will help us as we are still looking for ways to accurately measure jumps. GPS could end up
+being something we include in our final system.
+Lastly, we observed a GNSS receiver, or Global Navigation Satellite System, is a system that can provide accurate GIS
+data collection [2]. The goal of this system was to prove that the GNSS receiver could provide accurate data in a highly
+dynamic environment, skydiving. The team wanted to gather attitude and positioning data. The skydiver, Levson, was
+instructed to perform complex skydiving maneuvers to test how accurate the positioning of the receiver really was.
+Based on each maneuver, the GNSS was able to collect various data, as seen in the table below. The data included is
+time, latitude, longitude, height, azimuth, roll, pitch, and acceleration in each of the three planes. This is very helpful for
+our project as we intend to use each of the data fields mentioned above in our tracking system. The article does not
+contain too much information about the exact engineering method used to get each piece of data, but seeing each field
+is helpful for us to understand the importance and difficulty of each metric. Also, it is very helpful to instructors to
+understand each metric when debriefing a jump. There are no shortcomings of this project, however we must do more
+in-depth research to fully understand the tracking system.
+2.
+Problem Statement
+2.1.
+Problem Statement
+Our project will provide an enhanced data collector to be used in the freefall training of NSW personnel. It will be a
+compact device or a series of compact devices placed on a skydiver to collect data about the skydiver’s performance
+during freefall and canopy flight. This information will be collected for instructors to better debrief their students. We
+will develop a device adapted from a commercial product, called FlySight, that is already on the market in order to
+increase the amount and type of information collected including toggle movement, canopy reaction, and movement
+about all axis. An additional goal would be to develop a computer program that can organize all of that information and
+report a simulation or trends to the instructor.
+2.2.
+Functions
+Our project will be able to sense, collect, log, analyze. There are different functional phases for our project. Phase one is
+to sense and collect toggle inputs and collect gyro data from the skydiver with different sensors. Phase two is to be able
+to integrate FlySight with the data collected from phase one. We would accomplish this in one of three ways. Option
+number one would be a series connection where the toggle sensors and gyro are connected directly to the FlySight
+which would output all of the data collected in the same format. Option two would be a parallel connection where the
+toggle input sensor and gyro information funnel alongside FlySight data. In this case the data from both sources is in a
+different same format when entering the logger. Option three would also be a parallel connection where the data from
+both sources is in the same format when entering the logger. Phase two of the project’s functionality would be to log
+and analyze data. Finally, phase three, which may be the goal of a follow-on project, would be to create a user-friendly
+6display for instructors to view the performance of the skydiver.
+2.3.
+Constraints
+There are four main constraints to our project. The first constraint is that the design must not impede the performance
+of the skydiver. This means that the skydiver should not notice the additional equipment on their person. The second
+constraint is that this project should be safe and not change the flight dynamics of the skydiver or parachute. It can be
+considered safe when the design follows USPA guidance and is approved by a USPA Master Rigger. The third constraint
+is that we will incorporate the FlySight to provide simple measurements such as speed and glide ratio. The final
+constraint is that it will follow USPA guidelines for students and inexperienced jumpers should it be used by those
+individuals.
+2.4.
+Objectives, Pairwise Comparison Chart, and Weightings
+The project should be safe, effective and accurate. It should be safe so that it does not interfere with the skydive and it
+should be lightweight and compact. It should be effective so that clear data is presented to the instructor, the
+equipment is reliable for the instructor, and includes all three inputs from the toggle sensor, gyro and FlySight. It should
+be accurate so that it properly displays a students skydive.
+Table 1 Piecewise Comparison Chart
+72.5.
+Metrics
+The go- or no-go decision for a design based on the safety objective would be if it follows USPA guidelines. Should it
+follow USPA guidelines it is then a determination of the skydiver if it is comfortable to wear. The effectiveness of the
+design is based on the number of sensors that are consistently able to provide relevant data. As the number of sensors
+that provides relevant information increases so does the effectiveness. The accuracy of the design is based on how
+precise the toggle movement can be tracked. The more precise this is the higher the accuracy of the design.
+Table 2 C
+ooper-Harper Rating Scale for Safety [Metric 1]
+Table 3 Effectiveness [Metric 2]
+8Table 4 Accuracy [Metric 3]
+3. Related Work
+One of the main products we are basing our work around is a commercial device called the FlySight [4]. The FlySight
+attaches to the helmet of the skydiver and collects GPS and time data. We can take advantage of these features by
+integrating it with the other sensors we plan to use in order to capture the entire picture of ones skydive. When it is
+combined with toggle and orientation data it will allow an instructor to see how a skydiver’s position has changed as a
+result of their actions.
+Another device that will be critical to our project is a Cypress Automated Activation Device which senses the skydivers
+speed and altitude to deploy their parachute should the be unable to do so [1]. This is done through a barometric
+pressure reading and a microprocessor the triggers the parachute if the skydiver remains at a certain speed at their
+critical altitude. This device could be very useful because its altitude and speed recordings must be very accurate to
+promote safety. We can tap into this information to integrate with our other sensors in order to get the most accurate
+speed and altitude information.
+Finally, there is the ADA-Fruit gyroscope that will help us to determine the pitch, roll and yaw of the skydiver while they
+are in freefall and under canopy [5]. It is compact and small, 20x50mm and only weighing 4 grams. This is a critical device
+for our project because we need to now axis movements in conjunction with toggle inputs in order to provide anything
+useful to an instructor from a student’s skydive.
+All of the devices above are important. The gyroscope and the FlySight are crucial for the success and accuracy of the
+project as they must be integrated with the other sensors. While the automated activation device is not crucial to the
+development of the project, it would provide much more sensitive data, which may be necessary to provide results with
+the right amount of accuracy.
+94.
+Conceptual Designs
+4.1.
+Concept 1: IMU
+The IMU design consists of using three bno055 gyro sensors. Two will be located on each hand of the skydiver and
+another will be placed on the belt. We will use the IMU on the belt as the reference and see how far the others move
+from that reference. This will be able to determine the amount of toggle input from the skydive while under canopy. This
+design was given a 6 out of 7 for safety because it would not hinder the skydiver during his/her jump. While adding any
+additional equipment can be concerning, the low profile of the IMU would significantly reduce any risk. We initially rated
+it a 4 out of 4 for effect and 2 out 4 for accuracy. With further testing we will be able to determine how accurate this
+design will be.
+Figure 1 IMU Functional Diagram
+4.2.
+Concept 2: Computer Vision
+The computer vision design involves a skydiver wearing bright colored gloves that could be picked up by a camera
+attached to a belt worn by the skydiver. The camera will use colorThresholder via MATLAB coding in order to find the
+centroid of the skydiver’s hands and therefore determine the skydiver’s hand and toggle movement. This design was
+given a 4 out of 7 for safety because it would cause slightly more risk for the skydiver during his/her jump. Unlike the
+IMU, the GoPro sticks out of the skydiver’s profile which can be an increased snag hazard. We initially rated it a 4 out of
+4 for effect and 3 out 4 for accuracy. With further testing we will be able to determine how accurate this design will be.
+Figure 2 Computer Vision Functional Diagram
+104.3.
+Decision Matrix
+Table 5 Component Decision Matrix
+The IMU wins out before we have conducted any skydiving test trials because of safety. It would be much safer to put a
+small IMU on a skydiver’s belt as opposed to a camera. The camera would be bulkier and act as more of a snag hazard
+for the skydiver. While these considerations do not make the computer vision an unsafe method, it would not be quite
+as safe as the IMU.
+5.
+Ethical Considerations
+Our main ethical concerns revolve around the safety of the skydiver. If we create a product for the skydiver to wear and
+assure that skydiver it is safe we need to ensure that is actually doesn’t pose a threat. We must ensure that we do
+thorough tests on the ground and in the wind tunnel to ensure its safety. This will give us the peace of mind that when
+we ask a skydiver to make a skydive with this equipment they will be safe while doing so.
+One additional concern related to safety is that by creating this device we are saying that the data we collect is accurate
+enough for an instructor to use for evaluation and instruction. While we do not intend for this device to replace the
+decision making and expertise of the instructor, we must ensure that our information is accurate. If the data collected
+does not accurately reflect the skydive we could be encouraging bad behavior in a student skydiver.
+116.
+Engineering Standards and Specifications
+In order to wear the Go-Pro camera and the IMU during flight, we plan on creating a belt for the skydiver to wear while
+meeting USPA guidelines. This belt will be specially outfitted to hold the Go-Pro camera at an angle pointed towards the
+skydiver’s toggles and also keep the IMU in an area that will allow it to be an effective gyroscope while maintaining the
+safety of the entire system. Because the area above the waste on the front side of a skydiver is safe to mount the
+equipment, we will use a rigid belt (like a pistol belt or something similar) and velcro to mount the Go-Pro and IMU. The
+velcro we will use for this will be Mil. Spec. Hook and Loop Velcro that conforms to MIL-A-A-55126B.
+7.
+Preliminary Detailed Design
+7.1.
+Component Selection
+The GoPro was selected as the camera of choice for the project because it is often used by skydivers in freefall and
+under canopy. This is because the camera is impact rated and resistant to water and dust. Additionally, the camera is
+able to focus and stay steady even under wind speeds of 120 mph during freefall. Finally, GoPros are small and compact
+which allows them to be less of a snag hazard.
+The BN0 055 was chosen because it is very available and compatible with most interfaces. Additionally, there are nine
+degrees of freedom which will provide us with the most accurate and in depth information from a skydive.
+127.2.
+Parts List and Budget
+Table 6 Parts List
+Table 7 Parts List (continued)
+13Table 8 Budget
+7.3.
+Mechanical Drawings
+14Figure 3 IMU Mechanical Drawing
+Figure 4 Computer Vision Mechanical Drawing
+157.4.
+Circuit Diagrams
+Figure 5 Computer Vision Circuit Diagram
+Figure 6 IMU Circuit Diagram
+167.5.
+Prototypes
+Figure 7 Vibrant colored hand prototype
+17Figure 8 Binary Hand Image
+7.6.
+Software Structure
+Pseudo Code:
+-Load in Image
+-Create Threshold mask
+-For each frame in the image
+-Use the mask to create a binary image
+-Determine which blob is the hand
+- determine the size of the hand in pixels
+-use the equation to determine distance from camera from size
+-store the data in workspace array
+Figure 9 Code to Create Mask
+Figure 10 Code to Process Image
+18Figure 11 Code to Process Video
+7.7.
+Simulations
+Figure 12 Using the data points in the graph we created an equation to correlate the size of the hand in the image to the distance from the
+camera.
+198.
+8.1.
+Proposed Work
+Work Breakdown Structure
+VR Display of a Students Skydive
+1.1 Gyro Implementation
+1.1.1 Gyro type selection (Daniel - 1 hour)
+1.1.2 Gyro position and attachment (Daniel - 1 hour)
+1.2 Toggle Positioning Sensor
+1.2.1 Develop and test computer vision (Daniel and Joe - 4 hours)
+1.2.2 Develop and test IMU in elevator (Lauren and Lindsay - 4 hours)
+1.2.3 Determine best application (all members - 2 hours)
+1.2.4 Sensor position and attachment (all members - 3 hours)
+1.3 Flysight Adaptation
+1.3.1 Analyze Flysight data collected (Daniel and Joe - 4 hours)
+1.3.2 Make Flysight modifications (Lauren and Lindsay - 4 hours)
+1.4 Data Collection and Analysis
+1.4.1 Modify flysight and toggle sensor data to be comparable
+(Lauren and Lindsay - 3 hours)
+1.4.2 Create a program to present mass data collection
+(Daniel and Joe - 3 hours)
+1.4.3 Analyze the data and display students performance to the instructor
+1.5 VR Display
+1.5.1 Program data to connect data to display in VR program
+1.6 Organization and Documentation
+1.6.1 Draft report (Lauren and Lindsay - 2 hours)
+1.6.2 Draft poster (Daniel and Joe - 2 hours)
+1.6.3 Final report (Lauren and Lindsay - 1 hour)
+1.6.4 Final poster (Daniela and Joe - 1 hour)
+Tasks 1.1, 1.2, and 1.3 can be completed in parallel, but we cannot move on to 1.4 until the first three are completed.
+Step 1.4 is where 1.1, 1.2, and 1.3 are combined in order to allow for the data collection. One aspect of 1.3 that may
+need to be held off until 1.1 and 1.2 are complete is making any final modifications to the FlySight if we choose to
+connect the FlySight with our external sensors.
+The biggest hurdle we have to get over initially is the direction we want to take for the toggle sensor. Once we can
+determine what route we are going to take we can build the application for the skydiver and begin testing it. After this
+decision I foresee some issues with integrating the information from the different sensors into one big data collection
+program that can easily represent a student skydiver’s performance.
+208.2.
+Timeline
+Table 9 Spring Semester Gantt Timeline
+Table 10 Spring Semester Gantt Timeline (continued)
+218.3.
+Risk management
+The biggest risk we will face is the safety of the skydiver when the equipment is used in an actual skydive. The critical
+step that will come before the execution of a skydive using this equipment will be hours and hours of testing. The
+devices will first be tested on the ground in the Naval Academy Parachute Team’s loft. There we will have access to
+skydiving equipment and we can simulate the skydiving position accurately to see if the device will be comfortable and
+not cause any interference. Once these trials are complete we can try and test them in a wind tunnel to see if the
+devices are disturbed with high wind speeds. Once we are certain these tests have proved the equipment can be safe to
+wear on a skydive we can test it in the air. The first test jump will be executed by someone who holds no less than a
+C-License in order to mitigate risk.
+1. Weather​ - If the weather is not ideal, the tests cannot happen. To mitigate this, we will use a harness system to
+test our design indoors, and allow flexibility in the schedule towards the end of the project.
+2. Covid​ - In order to keep everyone healthy, we need to guarantee that we follow covid social- distancing
+guidelines. All instrumentation can also be individually worked on, and does not need a specific space to work.
+With this, it is possible for each member to take a piece of the system and continue to make progress without
+actually having to meet up.
+3. Snag Hazard​ - To keep the skydiver safe, it is imperative that the equipment will not catch on the lines of the
+chute affecting the performance of the diver. In order to prevent this, the system will actually be stitched into
+wearable clothing that the diver will be able to put on underneath their suit. By doing so, there is no possible
+way a piece of equipment can become a snag hazard. If we choose to implement a camera system, it will be
+mounted on the front belt area, which is a safe area in terms of being a snag hazard.
+4. Restriction of movement​ - The equipment cannot be overly bulky causing the diver to lose mobility during their
+jump as it is unsafe. To reduce this, the stitched shirt design will ensure that the system is loose enough to be
+worn as a piece of clothing. This also ensures that something like a wire will stay in place, so it will be impossible
+for it to get wrapped around the diver in any restrictive way.
+5. Equipment malfunction​ - Due to the harsh nature of skydiving, it is possible that some of the equipment will
+break, or turn loose during a dive. In order to reduce the likelihood of this, all equipment will be stitched into a
+wearable shirt, in order to reduce the amount of wear from movement. This will also stop any pieces from
+breaking loose and falling off the diver. We will also have our design to be “one size fits all.” This way, there will
+not be a malfunction due to sizing issues.
+8.4.
+Demonstration and Testing Plan
+For our benchmark, we plan on getting each sensor in our system to work individually. To be considered a success, the
+following tests must be successful per sensor:
+● The sensor must be able to ​ output read data​ in MATLAB when stationary.
+● The sensor will then be moved a known amount, and the sensor will have to ​ accurately display​ the correct
+movement in MATLAB
+We also have a computer vision branch of the project, should our initial design fail. In this design, a camera will be
+attached to a belt, looking up, and use computer vision to determine the position of the person’s hand relative to the
+camera. For our benchmark, we will take several images of a person with red gloves at different positions. If the test
+goes correctly, the computer will be able to determine the distance of the hand relative to the camera, which we can
+then use to determine the amount of toggle movement.
+22We will have each sensor working separately. Each sensor of the project will be displayed individually as we justify its
+importance and its workability. Our focus for these tests will be on accuracy because we cannot test its safety in the air.
+● Flysight: prior data collected will be displayed to show guests what the flysight collects
+● Gyro: device will be running while guests move it around seeing the movement data displayed on tera term
+● Computer Vision: device will be running while guests wear a red glove in front of the camera while watching the
+accuracy of the camera’s color threshold displayed in MATLAB
+239.
+9.1.
+Benchtop Demonstration
+Activities
+We will test in the bench demonstration will be computer vision. After running into trouble implementing the IMU, we
+will focus on using computer vision to track the toggle movements of the skydiver in flight for the bench-top
+demonstration. Because we are unable to currently test our computer vision in real jumps, we will perform the
+demonstration in Hopper Hall using a cut-out hand and a Go-Pro Hero 6 Black camera. In order to effectively ascertain
+whether our MATLAB color thresholding and distance code will work during jumps, we will tape the hand against a wall
+and take a video with the camera from different distances. After exporting the frames of the video, we will use MATLAB
+to track the hand to wall distance and the area of the hand and display a video of the results for our demonstration.
+9.2.
+Results
+For the bench-demo we focused on Color thresholding to estimate the distance of the diver’s hands to the camera. We
+conducted some test photos and videos in the classroom with paper hand cutouts painted neon yellow. We were able to
+determine the distance of the hands within half an inch averagely. For the future, we plan to make the color thresholder
+more precise with more tests to guarantee its ability to properly overview the diver’s performance. We also plan to use
+real human hands wearing brightly colored gloves rather than cut outs to conduct more accurate tests.
+24Figure 13 MIDN Sweeney hard at work during bench demo preparations
+References
+[1] Airtec, "User’s Guide," ​ Cypres 2 Manual , ​ Airtec GmbH & Co. KG Safety Systems,0:25, 2009. 2
+[2] Cozzens, Tracy “Taking GNSS receiver testing to new heights”, GPS World 2020 Aug.
+[3] Sara Mohamed, Vincent Favrod, Roberta Antonini Philippe, and Dennis Hauw, “The Situated Management of Safety
+during Risky Sport: Learning from Skydivers’ Courses of Experience”, J Sports Sci Med, 2015 May.
+[4] “The tech behind skydiving | skydive orange,” ​ Skydiveorange.com ​ , 11-Oct-2018. [Online]. Available:
+https://www.skydiveorange.com/2018/10/11/the-tech-behind-skydiving/. [Accessed: 03-Sep-2020].
+[5] W. Wibisono, D. N. Arifin, B. A. Pratomo, T. Ahmad, and R. M. Ijtihadie, “Falls Detection and Notification System
+Using Tri-axial Accelerometer and Gyroscope Sensors of a Smartphone.” 2014 April
